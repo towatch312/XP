@@ -9,7 +9,7 @@
         margin: 0;
         padding: 0;
     }
-    canvas {
+    .pdf-page {
         display: block;
         margin: auto;
     }
@@ -34,10 +34,10 @@
         for (var pageNum = 1; pageNum <= numPages; pageNum++) {
             // Create a canvas element for each page
             var canvas = document.createElement('canvas');
-            canvas.className = 'pdfPage';
+            canvas.className = 'pdf-page';
             pdfContainer.appendChild(canvas);
 
-            // Fetch the page
+            // Fetch the page asynchronously
             pdf.getPage(pageNum).then(function(page) {
                 // Set up the canvas for rendering
                 var context = canvas.getContext('2d');
