@@ -4,58 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menu</title>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
+<script>
+    // Function to prevent right-click context menu
+    function preventContextMenu(event) {
+        event.preventDefault();
     }
-    .pdf-page {
-        display: block;
-        margin: auto;
-    }
-</style>
+</script>
 </head>
 <body>
 
-<div id="pdfContainer"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
-<script>
-    // Specify the URL of your PDF file
-    var pdfUrl = 'Menu.pdf';
-
-    // Asynchronously load the PDF file
-    pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-        // Get the total number of pages in the PDF
-        var numPages = pdf.numPages;
-        var pdfContainer = document.getElementById('pdfContainer');
-
-        // Loop through each page
-        for (var pageNum = 1; pageNum <= numPages; pageNum++) {
-            // Create a canvas element for each page
-            var canvas = document.createElement('canvas');
-            canvas.className = 'pdf-page';
-            pdfContainer.appendChild(canvas);
-
-            // Fetch the page asynchronously
-            pdf.getPage(pageNum).then(function(page) {
-                // Set up the canvas for rendering
-                var context = canvas.getContext('2d');
-                var viewport = page.getViewport({ scale: 1 });
-
-                // Set the canvas dimensions to match the PDF page dimensions
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-
-                // Render the PDF page on the canvas
-                page.render({
-                    canvasContext: context,
-                    viewport: viewport
-                });
-            });
-        }
-    });
-</script>
+<!-- Display a link to the PDF file -->
+<a href="Menu.pdf" target="_blank" oncontextmenu="preventContextMenu(event); return false;">View PDF Menu</a>
 
 </body>
 </html>
