@@ -37,8 +37,9 @@
 <div class="pdf-container">
     <div class="pdf-overlay"></div>
     <!-- Preload the PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"></script>
     <script>
-    var pdf = new PDFObject({ url: "Menu.pdf", pdfOpenParams: { view: 'FitV' } }).embed();
+        PDFObject.embed("Menu.pdf", ".pdf-container");
     </script>
 </div>
 
@@ -48,9 +49,6 @@
         e.preventDefault();
     });
 </script>
-
-<!-- PDFObject Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"></script>
 
 </body>
 </html>
