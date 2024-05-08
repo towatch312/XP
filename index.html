@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<canvas id="pdfRenderer"></canvas>
+<div id="pdfContainer"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 <script>
@@ -26,25 +26,34 @@
 
     // Asynchronously load the PDF file
     pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-        // Fetch the first page
-        return pdf.getPage(1);
-    }).then(function(page) {
-        // Set up the canvas for rendering
-        var canvas = document.getElementById('pdfRenderer');
-        var context = canvas.getContext('2d');
+        // Get the total number of pages in the PDF
+        var numPages = pdf.numPages;
+        var pdfContainer = document.getElementById('pdfContainer');
 
-        // Set the viewport scale based on the canvas size and the PDF page dimensions
-        var viewport = page.getViewport({ scale: 1 });
+        // Loop through each page
+        for (var pageNum = 1; pageNum <= numPages; pageNum++) {
+            // Create a canvas element for each page
+            var canvas = document.createElement('canvas');
+            canvas.className = 'pdfPage';
+            pdfContainer.appendChild(canvas);
 
-        // Set the canvas dimensions to match the PDF page dimensions
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+            // Fetch the page
+            pdf.getPage(pageNum).then(function(page) {
+                // Set up the canvas for rendering
+                var context = canvas.getContext('2d');
+                var viewport = page.getViewport({ scale: 1 });
 
-        // Render the PDF page on the canvas
-        page.render({
-            canvasContext: context,
-            viewport: viewport
-        });
+                // Set the canvas dimensions to match the PDF page dimensions
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                // Render the PDF page on the canvas
+                page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                });
+            });
+        }
     });
 </script>
 
